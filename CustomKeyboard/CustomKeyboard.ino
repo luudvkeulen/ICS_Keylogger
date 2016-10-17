@@ -7,23 +7,19 @@
 
 class KbdRptParser : public KeyboardReportParser
 {
-  protected:virtual void OnKeyDown	(uint8_t mod, uint8_t key);
+  protected: virtual void OnKeyDown	(uint8_t mod, uint8_t key);
 };
 
 void KbdRptParser::OnKeyDown(uint8_t mod, uint8_t key)
 {
   if (key == 40) {
     Serial.println("");
+  } else if(key == 42) {
+    Serial.print("*Backspace*");
   } else if (key <= 127) {
     uint8_t ascii = OemToAscii(mod, key);
     Serial.print((char)ascii);
   }
-  //Serial.print("DN ");
-  //PrintKey(mod, key);
-  //uint8_t c = OemToAscii(mod, key);
-
-  //if (c)
-  //OnKeyPressed(c);
 }
 
 USB     Usb;
