@@ -25,20 +25,21 @@ void KbdRptParser::OnKeyDown(uint8_t mod, uint8_t key)
 USB     Usb;
 //If the keyboard has a hub (Apple keyboard) then combine them
 USBHub     Hub1(&Usb);
-HIDBoot<HID_PROTOCOL_KEYBOARD>    HidKeyboard1(&Usb);
-
-KbdRptParser Prs;
+HIDBoot<HID_PROTOCOL_KEYBOARD>    keyboard(&Usb);
+KbdRptParser Parser;
 
 void setup()
 {
+  //////////////////
+  //Debug purpose//
+  //////////////////
   Serial.begin( 115200 );
-  while (!Serial);
+  while (!Serial); //Wait for serial to be open
   Serial.println("Starting...");
+  if (Usb.Init() == -1) Serial.println("OSC did not start.");
+  //////////////////
 
-  if (Usb.Init() == -1)
-    Serial.println("OSC did not start.");
-
-  HidKeyboard1.SetReportParser(0, (HIDReportParser*)&Prs);
+  keyboard.SetReportParser(0, (HIDReportParser*)&Parser);
 }
 
 void loop()
